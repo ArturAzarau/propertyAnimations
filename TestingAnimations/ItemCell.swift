@@ -10,9 +10,13 @@ import UIKit
 
 final class ItemCell: UICollectionViewCell {
 
+    static var state = State.expanded
+    enum State {
+        case shrinked, expanded
+    }
+    
     var firstLabel = UILabel()
     var secondLabel = UILabel()
-
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -42,11 +46,17 @@ final class ItemCell: UICollectionViewCell {
         contentView.backgroundColor = .black
     }
 
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        firstLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
+                                            constant: 15 - firstLabel.intrinsicContentSize.width / 2).isActive = true
+    }
+
     private func configureLayout() {
         firstLabel.translatesAutoresizingMaskIntoConstraints = false
         secondLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            firstLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15 - firstLabel.intrinsicContentSize.width / 2),
             firstLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0),
             secondLabel.topAnchor.constraint(equalTo: firstLabel.bottomAnchor, constant: 20),
             secondLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15)
